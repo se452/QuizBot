@@ -2,12 +2,12 @@ import React from "react";
 
 import Login from "./components/Login";
 
-const LoginPage = () => {
+const Logins = () => {
   return (
     <div>
-      <Login />
+      <Logins />
     </div>
   );
 };
 
-export default LoginPage;
+export default Login;
