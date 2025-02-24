@@ -6,7 +6,9 @@ const Navbar = () => {
       <h1>QuizBot</h1>
       <nav>
         <ul>
-          <li>logout</li>
+          <li>
+            <a href="/">logout</a>
+          </li>
         </ul>
       </nav>
     </div>
