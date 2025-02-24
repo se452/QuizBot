@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./Home.css";
 
 const Home = () => {
   //state constants can be edited
@@ -12,7 +13,7 @@ const Home = () => {
   };
 
   return (
-    <div>
+    <div className = "home-styling">
       <h1>Quiz Generator</h1>
       <input
         type="text"
@@ -21,7 +22,7 @@ const Home = () => {
         onChange={(e) => SetYoutubeLink(e.target.value)}
       />
       <button onClick={submitRequest}>Generate Quiz</button>
-      //display the quiz
+
       {Quiz && (
         <div>
           <h2>Generated Quiz:</h2>
