@@ -12,6 +12,7 @@ const Home = () => {
 
     const submitRequest = () =>{
       //handle api requests
+      //for git commit
     }
 
     return(
