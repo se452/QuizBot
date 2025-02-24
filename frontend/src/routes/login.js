@@ -1,8 +1,8 @@
 import React from "react";
 
-import Login from "./components/Login";
+import Logins from "../components/Login";
 
-const Logins = () => {
+const Login = () => {
   return (
     <div>
       <Logins />
