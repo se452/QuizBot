@@ -11,10 +11,9 @@
       "src": "/api/(.*)",
       "dest": "index.py",
       "headers": {
-        "Access-Control-Allow-Origin": "https://quiz-bot-iota.vercel.app",
+        "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
         "Access-Control-Allow-Headers": "Content-Type, Authorization",
-        "Access-Control-Allow-Credentials": "true",
         "Access-Control-Max-Age": "3600"
       }
     },
@@ -22,10 +21,10 @@
       "src": "/(.*)",
       "dest": "index.py",
       "headers": {
-        "Access-Control-Allow-Origin": "https://quiz-bot-iota.vercel.app",
+        "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET,OPTIONS",
         "Access-Control-Allow-Headers": "Content-Type",
-        "Access-Control-Allow-Credentials": "true"
+        "Access-Control-Max-Age": "3600"
       }
     }
   ]
