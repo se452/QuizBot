@@ -28,7 +28,7 @@ const Home = () => {
       setQuizSubmitted(false);
       setQuizResults(null);
 
-      const response = await fetch("http://localhost:5002/api/generate-quiz", {
+      const response = await fetch("https://quiz-bot-backend.vercel.app/api/generate-quiz", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -136,7 +136,7 @@ const Home = () => {
 
       // Try to submit to backend
       try {
-        const response = await fetch("http://localhost:5002/api/submit-quiz", {
+        const response = await fetch("https://quiz-bot-backend.vercel.app/api/submit-quiz", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
