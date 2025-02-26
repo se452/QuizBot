@@ -11,15 +11,14 @@ def create_app():
              r"/*": {  # Allow CORS for all routes
                  "origins": [
                      "https://quiz-bot-iota.vercel.app",
-                     "http://localhost:3000",
-                     "https://quiz-bot-iota.vercel.app/"
+                     "https://quiz-bot-git-yogesh-yogesh-lakhanis-projects.vercel.app",
+                     "http://localhost:3000"
                  ],
                  "methods": ["GET", "POST", "OPTIONS"],
                  "allow_headers": ["Content-Type", "Authorization"],
                  "expose_headers": ["Content-Type", "Authorization"],
                  "max_age": 3600,
-                 "supports_credentials": True,
-                 "send_wildcard": False
+                 "supports_credentials": False
              }
          }
     )
@@ -31,4 +30,4 @@ def create_app():
     from .routes import main
     app.register_blueprint(main)
     
-    return app 
+    return app
