@@ -34,6 +34,7 @@ const Home = () => {
 
       const response = await fetch(`${API_URL}/api/generate-quiz`, {
         method: "POST",
+        credentials: 'include',
         headers: {
           "Content-Type": "application/json",
         },
@@ -142,6 +143,7 @@ const Home = () => {
       try {
         const response = await fetch(`${API_URL}/api/submit-quiz`, {
           method: "POST",
+          credentials: 'include',
           headers: {
             "Content-Type": "application/json",
           },

@@ -41,3 +41,4 @@ credentials/
 *.json
 !package.json
 !vercel.json 
+.vercel
