@@ -5,15 +5,11 @@ from .error_handlers import register_error_handlers
 def create_app():
     app = Flask(__name__)
     
-    # Configure CORS to allow requests from frontend
+    # Configure CORS to allow requests from all origins
     CORS(app, 
          resources={
              r"/*": {  # Allow CORS for all routes
-                 "origins": [
-                     "https://quiz-bot-iota.vercel.app",
-                     "https://quiz-bot-git-yogesh-yogesh-lakhanis-projects.vercel.app",
-                     "http://localhost:3000"
-                 ],
+                 "origins": "*",  # Allow all origins
                  "methods": ["GET", "POST", "OPTIONS"],
                  "allow_headers": ["Content-Type", "Authorization"],
                  "expose_headers": ["Content-Type", "Authorization"],
