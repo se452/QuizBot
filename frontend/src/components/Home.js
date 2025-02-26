@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import "./Home.css";
 
+const API_URL = process.env.NODE_ENV === 'production' 
+  ? 'https://quiz-bot-iwzq.vercel.app'  // Your backend Vercel URL
+  : 'http://localhost:5002';
+
 const Home = () => {
   // State variables
   const [youtubeLink, setYoutubeLink] = useState("");
@@ -28,7 +32,7 @@ const Home = () => {
       setQuizSubmitted(false);
       setQuizResults(null);
 
-      const response = await fetch("http://localhost:5002/api/generate-quiz", {
+      const response = await fetch(`${API_URL}/api/generate-quiz`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -136,7 +140,7 @@ const Home = () => {
 
       // Try to submit to backend
       try {
-        const response = await fetch("http://localhost:5002/api/submit-quiz", {
+        const response = await fetch(`${API_URL}/api/submit-quiz`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
