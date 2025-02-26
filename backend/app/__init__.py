@@ -6,16 +6,20 @@ def create_app():
     
     # Configure CORS to allow requests from frontend
     CORS(app, 
-         resources={r"/api/*": {
-             "origins": [
-                 "https://quiz-bot-iota.vercel.app",
-                 "http://localhost:3000"
-             ],
-             "methods": ["GET", "POST", "OPTIONS"],
-             "allow_headers": ["Content-Type"],
-             "supports_credentials": True
-         }},
-         supports_credentials=True
+         resources={
+             r"/*": {  # Allow CORS for all routes
+                 "origins": [
+                     "https://quiz-bot-iota.vercel.app",
+                     "http://localhost:3000",
+                     "https://quiz-bot-iota.vercel.app/"
+                 ],
+                 "methods": ["GET", "POST", "OPTIONS"],
+                 "allow_headers": ["Content-Type", "Authorization"],
+                 "expose_headers": ["Content-Type", "Authorization"],
+                 "supports_credentials": True,
+                 "send_wildcard": False
+             }
+         }
     )
     
     from .routes import main

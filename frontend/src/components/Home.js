@@ -3,7 +3,7 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 import "./Home.css";
 
 const API_URL = process.env.NODE_ENV === 'production' 
-  ? 'https://quiz-bot-iwzq.vercel.app'  // Your backend Vercel URL
+  ? 'https://hackathon-quiz-fupbey6jg-yogesh-lakhanis-projects.vercel.app'  // Your new backend Vercel URL
   : 'http://localhost:5002';
 
 const Home = () => {
@@ -34,13 +34,13 @@ const Home = () => {
 
       const response = await fetch(`${API_URL}/api/generate-quiz`, {
         method: "POST",
+        mode: 'cors',
         credentials: 'include',
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           youtube_url: youtubeLink,
-          // You can add user_id here if you have authentication
         }),
       });
 
@@ -143,6 +143,7 @@ const Home = () => {
       try {
         const response = await fetch(`${API_URL}/api/submit-quiz`, {
           method: "POST",
+          mode: 'cors',
           credentials: 'include',
           headers: {
             "Content-Type": "application/json",
