@@ -3,7 +3,7 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 import "./Home.css";
 
 const API_URL = process.env.NODE_ENV === 'production' 
-  ? 'https://hackathon-quiz-fupbey6jg-yogesh-lakhanis-projects.vercel.app'
+  ? 'https://hackathon-quiz-qsk8jfwzx-yogesh-lakhanis-projects.vercel.app'
   : 'http://localhost:5000';
 
 const Home = () => {
@@ -34,19 +34,22 @@ const Home = () => {
 
       const response = await fetch(`${API_URL}/api/generate-quiz`, {
         method: "POST",
+        mode: 'cors',
         headers: {
           "Content-Type": "application/json",
+          "Accept": "application/json"
         },
         body: JSON.stringify({
           youtube_url: youtubeLink,
         }),
       });
 
-      const data = await response.json();
-
       if (!response.ok) {
-        throw new Error(data.error || "Failed to generate quiz");
+        const errorData = await response.json().catch(() => ({ error: "Network error" }));
+        throw new Error(errorData.error || "Failed to generate quiz");
       }
+
+      const data = await response.json();
 
       setTranscript(data.transcript);
       setQuiz(data.quiz);
@@ -141,8 +144,10 @@ const Home = () => {
       try {
         const response = await fetch(`${API_URL}/api/submit-quiz`, {
           method: "POST",
+          mode: 'cors',
           headers: {
             "Content-Type": "application/json",
+            "Accept": "application/json"
           },
           body: JSON.stringify({
             quiz_id: quiz.id,
