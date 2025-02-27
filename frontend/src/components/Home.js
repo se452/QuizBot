@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import "./Home.css";
 
-const API_URL = process.env.NODE_ENV === 'production' 
-  ? 'https://hackathon-quiz-qsk8jfwzx-yogesh-lakhanis-projects.vercel.app'
-  : 'http://localhost:5002';
+// Use environment variable for API URL
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 const Home = () => {
   // State variables
