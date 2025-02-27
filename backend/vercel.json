@@ -8,6 +8,11 @@
   ],
   "routes": [
     {
+      "src": "/api/(.*)",
+      "methods": ["OPTIONS"],
+      "dest": "index.py"
+    },
+    {
       "src": "/(.*)",
       "dest": "index.py",
       "headers": {
