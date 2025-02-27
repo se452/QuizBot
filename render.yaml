@@ -4,6 +4,8 @@ services:
     name: quizbot-backend
     env: python
     plan: free
+    region: oregon
+    autoDeploy: true
     buildCommand: cd backend && pip install -r requirements.txt
     startCommand: cd backend && gunicorn run:app
     envVars:
@@ -21,16 +23,16 @@ services:
         value: https://quizbot-frontend.onrender.com,http://localhost:3000
 
   # Frontend service
-  - type: web
+  - type: static
     name: quizbot-frontend
     env: node
     plan: free
+    region: oregon
+    autoDeploy: true
     buildCommand: cd frontend && npm install && npm run build
-    startCommand: cd frontend && npm run serve
+    staticPublishPath: frontend/build
     envVars:
       - key: NODE_VERSION
         value: 18.12.1
       - key: REACT_APP_API_URL
-        value: https://quizbot-backend.onrender.com
-      - key: PORT
-        value: 10000 
+        value: https://quizbot-backend.onrender.com 
