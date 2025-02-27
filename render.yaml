@@ -20,7 +20,7 @@ services:
       - key: FIREBASE_CREDENTIALS
         sync: false
       - key: CORS_ALLOWED_ORIGINS
-        value: https://quizbot-frontend.onrender.com,http://localhost:3000
+        value: https://quizbot-frontend.onrender.com,http://localhost:3000,https://quizbot-frontend.onzender.com
 
   # Frontend service
   - type: static
