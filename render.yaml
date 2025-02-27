@@ -23,4 +23,4 @@ services:
         destination: /index.html
     envVars:
       - key: REACT_APP_API_URL
-        value: https://quizbot-backend.onrender.com # Update this with your actual backend URL once deployed 
+        value: https://quizbot-backend.onrender.app # Your actual deployed backend URL 
