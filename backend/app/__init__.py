@@ -11,7 +11,7 @@ def create_app():
              r"/*": {  # Allow CORS for all routes
                  "origins": "*",  # Allow all origins
                  "methods": ["GET", "POST", "OPTIONS"],
-                 "allow_headers": ["Content-Type", "Authorization"],
+                 "allow_headers": ["Content-Type", "Authorization", "Accept"],
                  "expose_headers": ["Content-Type", "Authorization"],
                  "max_age": 3600,
                  "supports_credentials": False

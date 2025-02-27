@@ -1,0 +1,20 @@
+services:
+  # Backend API service
+  - type: web
+    name: quizbot-backend
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: cd backend && gunicorn index:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+
+  # Frontend static site
+  - type: web
+    name: quizbot-frontend
+    env: static
+    buildCommand: cd frontend && npm install && npm run build
+    staticPublishPath: ./frontend/build
+    envVars:
+      - key: REACT_APP_API_URL
+        value: https://quizbot-backend.onrender.com # Update this with your actual backend URL once deployed 
