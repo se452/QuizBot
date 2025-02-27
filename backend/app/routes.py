@@ -129,4 +129,39 @@ def calculate_results_locally(quiz_data, user_answers):
         return {
             "error": str(e),
             "message": "Failed to process quiz results locally"
-        } 
+        }
+
+@main.route('/api/quiz-status', methods=['GET', 'OPTIONS'])
+def quiz_status():
+    if request.method == 'OPTIONS':
+        # Handle preflight request
+        return '', 204
+        
+    youtube_url = request.args.get('youtube_url')
+    if not youtube_url:
+        return jsonify({"error": "YouTube URL is required"}), 400
+    
+    # In a real application, you would check a database or cache
+    # For now, we'll just return a mock response
+    return jsonify({
+        "status": "completed",
+        "quiz": {
+            "id": "mock_id",
+            "title": "Generated Quiz",
+            "questions": [
+                {
+                    "id": 1,
+                    "question": "Sample question 1?",
+                    "options": ["Option A", "Option B", "Option C", "Option D"],
+                    "correct_answer": 0
+                },
+                {
+                    "id": 2,
+                    "question": "Sample question 2?",
+                    "options": ["Option A", "Option B", "Option C", "Option D"],
+                    "correct_answer": 1
+                }
+            ]
+        },
+        "transcript": "This is a sample transcript."
+    }) 

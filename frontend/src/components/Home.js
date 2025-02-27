@@ -2,6 +2,9 @@ import React, { useState } from "react";
 //import { CSSTransition, TransitionGroup } from "react-transition-group";
 import "./Home.css";
 
+// Use environment variable for API URL
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5003';
+
 const Home = () => {
   // State variables
   const [youtubeLink, setYoutubeLink] = useState("");
@@ -12,6 +15,69 @@ const Home = () => {
   const [userAnswers, setUserAnswers] = useState([]);
   const [quizSubmitted, setQuizSubmitted] = useState(false);
   const [quizResults, setQuizResults] = useState(null);
+  const [isPolling, setIsPolling] = useState(false);
+  const [pollCount, setPollCount] = useState(0);
+
+  // Function to check if quiz was generated
+  const checkQuizStatus = async (youtubeUrl) => {
+    if (pollCount > 10) {
+      setIsLoading(false);
+      setError("Quiz generation timed out. Please try again.");
+      setIsPolling(false);
+      setPollCount(0);
+      return;
+    }
+
+    setIsPolling(true);
+    setPollCount(prev => prev + 1);
+
+    try {
+      // Try to get quiz status using GET request
+      const response = await fetch(`${API_URL}/api/quiz-status?youtube_url=${encodeURIComponent(youtubeUrl)}`, {
+        method: "GET",
+        mode: 'no-cors',
+      });
+
+      if (response.type === 'opaque') {
+        // Still opaque, wait and try again
+        setTimeout(() => {
+          checkQuizStatus(youtubeUrl);
+        }, 3000);
+        return;
+      }
+
+      const data = await response.json();
+      
+      if (data.status === 'completed' && data.quiz) {
+        setQuiz(data.quiz);
+        setTranscript(data.transcript || "");
+        setIsLoading(false);
+        setIsPolling(false);
+        setPollCount(0);
+      } else if (data.status === 'processing') {
+        // Still processing, wait and try again
+        setTimeout(() => {
+          checkQuizStatus(youtubeUrl);
+        }, 3000);
+      } else {
+        throw new Error(data.error || "Failed to generate quiz");
+      }
+    } catch (error) {
+      console.error("Error checking quiz status:", error);
+      
+      if (pollCount < 10) {
+        // Try again
+        setTimeout(() => {
+          checkQuizStatus(youtubeUrl);
+        }, 3000);
+      } else {
+        setIsLoading(false);
+        setError("Failed to generate quiz. Please try again.");
+        setIsPolling(false);
+        setPollCount(0);
+      }
+    }
+  };
 
   // Function to generate quiz from YouTube link
   const generateQuiz = async () => {
@@ -20,31 +86,35 @@ const Home = () => {
       return;
     }
 
-    try {
-      setIsLoading(true);
-      setError("");
-      setQuiz(null);
-      setTranscript("");
-      setQuizSubmitted(false);
-      setQuizResults(null);
+    setIsLoading(true);
+    setError(null);
 
-      const response = await fetch("http://localhost:5002/api/generate-quiz", {
+    try {
+      // Try using a proxy service or no-cors mode as a last resort
+      const response = await fetch(`${API_URL}/api/generate-quiz`, {
         method: "POST",
+        mode: 'no-cors', // This will make the response "opaque" but might bypass CORS issues
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           youtube_url: youtubeLink,
-          // You can add user_id here if you have authentication
         }),
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || "Failed to generate quiz");
+      // With no-cors mode, we can't access the response content directly
+      // So we need to handle this differently
+      if (response.type === 'opaque') {
+        // Wait a moment and then check if the quiz was generated
+        setTimeout(() => {
+          checkQuizStatus(youtubeLink);
+        }, 5000);
+        return;
       }
 
+      // If we get here, we were able to access the response
+      const data = await response.json();
+      
       setTranscript(data.transcript);
       setQuiz(data.quiz);
       // Initialize user answers array with -1 (no answer selected)
@@ -136,10 +206,12 @@ const Home = () => {
 
       // Try to submit to backend
       try {
-        const response = await fetch("http://localhost:5002/api/submit-quiz", {
+        const response = await fetch(`${API_URL}/api/submit-quiz`, {
           method: "POST",
+          mode: 'cors',
           headers: {
             "Content-Type": "application/json",
+            "Accept": "application/json"
           },
           body: JSON.stringify({
             quiz_id: quiz.id,
