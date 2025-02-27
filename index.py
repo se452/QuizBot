@@ -9,4 +9,4 @@ from backend.index import app
 
 # This file is used by Render to start the application
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000))) 
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5003))) 
